@@ -1,0 +1,5 @@
+{
+  "name": "글겹게임",
+  "description": "단어를 제작하고, 겹쳐진 글자를 단계를 거쳐 맞추는 간단한 단어 게임입니다.",
+  "requestFramePermissions": []
+}

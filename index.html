@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글겹게임</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Menu Screen -->
+        <div id="main-menu-container">
+            <h1 class="title">글겹게임</h1>
+            <div class="menu-buttons">
+                <button id="start-game-btn" class="btn primary">시작</button>
+                <button id="create-words-btn" class="btn secondary">제작</button>
+            </div>
+        </div>
+
+        <!-- Create Words Screen -->
+        <div id="create-container" class="hidden">
+            <h2 class="subtitle">단어 제작</h2>
+            <div class="input-group">
+                <input type="text" id="word-input" placeholder="사용할 단어를 입력하세요" aria-label="단어 입력">
+                <button id="add-word-btn" class="btn">추가</button>
+            </div>
+            <ul id="word-list"></ul>
+            <button id="save-words-btn" class="btn primary full-width">저장하고 돌아가기</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-container" class="hidden">
+            <button id="home-btn" aria-label="홈으로 돌아가기">&larr; 홈으로</button>
+            <div id="question-indicator" class="question-indicator"></div>
+            <div id="step-indicator" class="step-indicator"></div>
+            <div class="word-display-wrapper">
+                <div id="word-display" role="status" aria-live="polite"></div>
+            </div>
+            <button id="prev-btn" class="btn floating-left">이전</button>
+            <button id="next-btn" class="btn floating-right">다음</button>
+        </div>
+    </div>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

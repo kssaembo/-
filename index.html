@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div class="app-container">
@@ -36,13 +37,18 @@
             <button id="home-btn" aria-label="홈으로 돌아가기">&larr; 홈으로</button>
             <div id="question-indicator" class="question-indicator"></div>
             <div id="step-indicator" class="step-indicator"></div>
+            <div id="fireworks-container"></div>
             <div class="word-display-wrapper">
                 <div id="word-display" role="status" aria-live="polite"></div>
             </div>
             <button id="prev-btn" class="btn floating-left">이전</button>
-            <button id="next-btn" class="btn floating-right">다음</button>
+            <div class="floating-right-container">
+                <button id="answer-btn" class="btn success">정답</button>
+                <button id="next-btn" class="btn">다음</button>
+            </div>
         </div>
     </div>
     <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

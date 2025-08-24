@@ -3,6 +3,8 @@
     --primary-hover-color: #0056b3;
     --secondary-color: #e9e9eb;
     --secondary-hover-color: #dcdce0;
+    --success-color: #34c759;
+    --success-hover-color: #2ca049;
     --background-color: #f0f2f5;
     --container-bg-color: #ffffff;
     --text-color: #1c1c1e;
@@ -136,6 +138,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 #home-btn {
@@ -201,11 +204,12 @@ body {
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-
-.floating-right {
+.floating-right-container {
     position: absolute;
     bottom: 30px;
     right: 30px;
+    display: flex;
+    gap: 10px;
 }
 
 .floating-left {
@@ -213,6 +217,37 @@ body {
     bottom: 30px;
     left: 30px;
 }
+
+/* --- Fireworks --- */
+#fireworks-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    animation: explode 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3) translate(var(--translateX), var(--translateY));
+        opacity: 0;
+    }
+}
+
 
 /* --- General Button Styles --- */
 .btn {
@@ -244,6 +279,14 @@ body {
     background-color: var(--secondary-hover-color);
 }
 
+.btn.success {
+    background-color: var(--success-color);
+    color: white;
+}
+.btn.success:hover {
+    background-color: var(--success-hover-color);
+}
+
 
 @media (max-width: 480px) {
     .app-container {
@@ -258,5 +301,8 @@ body {
     .btn {
         padding: 12px 24px;
         font-size: 1rem;
+    }
+    .floating-right-container, .floating-left {
+        bottom: 20px;
     }
 }

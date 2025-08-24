@@ -14,9 +14,11 @@ const saveWordsBtn = document.getElementById('save-words-btn') as HTMLButtonElem
 const wordDisplay = document.getElementById('word-display') as HTMLDivElement;
 const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
 const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+const answerBtn = document.getElementById('answer-btn') as HTMLButtonElement;
 const homeBtn = document.getElementById('home-btn') as HTMLButtonElement;
 const stepIndicator = document.getElementById('step-indicator') as HTMLDivElement;
 const questionIndicator = document.getElementById('question-indicator') as HTMLDivElement;
+const fireworksContainer = document.getElementById('fireworks-container') as HTMLDivElement;
 
 
 // --- Game State ---
@@ -28,7 +30,7 @@ let isGameFinished = false;
 
 // Multipliers for spacing characters from the center using translateX.
 // 0 = perfect overlap, 1.0 = normal spacing.
-const SPACING_MULTIPLIERS = [0, 0.15, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2]; // 8 stages
+const SPACING_MULTIPLIERS = [0, 0.15, 0.3, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6]; // 10 stages
 const WORD_STORAGE_KEY = 'geulgyeob-words';
 
 // --- Functions ---
@@ -96,17 +98,20 @@ function renderTempWordList() {
  * Updates the word display with the current word and spacing level.
  */
 function updateWordDisplay() {
+    fireworksContainer.innerHTML = '';
     if (isGameFinished) {
         wordDisplay.innerHTML = `<div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">끝</div>`;
         stepIndicator.classList.add('hidden');
         questionIndicator.classList.add('hidden');
         nextBtn.textContent = '메인화면으로';
         prevBtn.classList.add('hidden');
+        answerBtn.classList.add('hidden');
         return;
     }
 
     stepIndicator.classList.remove('hidden');
     questionIndicator.classList.remove('hidden');
+    answerBtn.classList.remove('hidden');
 
     if (words.length === 0 || currentWordIndex >= words.length) {
         isGameFinished = true;
@@ -125,11 +130,7 @@ function updateWordDisplay() {
         const span = document.createElement('span');
         span.textContent = char;
         
-        // Calculate the horizontal offset from the center of the word.
         const offset = (index - middleIndex) * spacingMultiplier;
-        
-        // The base transform centers the span's own center. Then we add the translateX offset.
-        // Using 'ch' unit, which is ideal for horizontal spacing based on font width.
         span.style.transform = `translate(-50%, -50%) translateX(${offset}ch)`;
         
         wordDisplay.appendChild(span);
@@ -167,6 +168,48 @@ function startGame() {
     showScreen('game');
 }
 
+
+/**
+ * Moves the game to the next question.
+ */
+function goToNextQuestion() {
+    currentLevel = 0;
+    currentWordIndex++;
+    if (currentWordIndex >= words.length) {
+        isGameFinished = true;
+    }
+    updateWordDisplay();
+}
+
+/**
+ * Creates and triggers the fireworks animation.
+ */
+function createFireworks() {
+    fireworksContainer.innerHTML = ''; // Clear previous
+    const NUM_PARTICLES = 30;
+    const COLORS = ['#ff3b30', '#ff9500', '#ffcc00', '#34c759', '#007aff', '#5856d6', '#af52de'];
+
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('firework');
+        
+        const angle = Math.random() * 360;
+        const distance = Math.random() * 100 + 50;
+        const x = Math.cos(angle * Math.PI / 180) * distance;
+        const y = Math.sin(angle * Math.PI / 180) * distance;
+
+        particle.style.setProperty('--translateX', `${x}px`);
+        particle.style.setProperty('--translateY', `${y}px`);
+        particle.style.backgroundColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+        
+        particle.style.top = '50%';
+        particle.style.left = '50%';
+
+        fireworksContainer.appendChild(particle);
+    }
+}
+
+
 // --- Event Handlers ---
 
 function handleStartClick() {
@@ -201,15 +244,12 @@ function handleNextClick() {
         return;
     }
 
-    currentLevel++;
-    if (currentLevel >= SPACING_MULTIPLIERS.length) {
-        currentLevel = 0;
-        currentWordIndex++;
-        if (currentWordIndex >= words.length) {
-            isGameFinished = true;
-        }
+    if (currentLevel >= SPACING_MULTIPLIERS.length - 1) {
+        goToNextQuestion();
+    } else {
+        currentLevel++;
+        updateWordDisplay();
     }
-    updateWordDisplay();
 }
 
 function handlePrevClick() {
@@ -229,6 +269,17 @@ function handlePrevClick() {
     updateWordDisplay();
 }
 
+function handleAnswerClick() {
+    if (isGameFinished) return;
+
+    createFireworks();
+
+    setTimeout(() => {
+        goToNextQuestion();
+    }, 1000);
+}
+
+
 // --- Initialization ---
 
 function init() {
@@ -246,6 +297,7 @@ function init() {
     // Game screen buttons
     nextBtn.addEventListener('click', handleNextClick);
     prevBtn.addEventListener('click', handlePrevClick);
+    answerBtn.addEventListener('click', handleAnswerClick);
     homeBtn.addEventListener('click', () => showScreen('main'));
     
     // Initial setup

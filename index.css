@@ -287,6 +287,18 @@ body {
     background-color: var(--success-hover-color);
 }
 
+/* --- Footer Copyright --- */
+.copyright {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: var(--light-text-color);
+    width: 100%;
+    pointer-events: none;
+}
+
 
 @media (max-width: 480px) {
     .app-container {
@@ -303,6 +315,10 @@ body {
         font-size: 1rem;
     }
     .floating-right-container, .floating-left {
-        bottom: 20px;
+        bottom: 30px;
+    }
+    .copyright {
+        bottom: 5px;
+        font-size: 0.7rem;
     }
 }

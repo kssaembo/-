@@ -19,6 +19,9 @@ const homeBtn = document.getElementById('home-btn') as HTMLButtonElement;
 const stepIndicator = document.getElementById('step-indicator') as HTMLDivElement;
 const questionIndicator = document.getElementById('question-indicator') as HTMLDivElement;
 const fireworksContainer = document.getElementById('fireworks-container') as HTMLDivElement;
+const customModal = document.getElementById('custom-modal') as HTMLDivElement;
+const modalConfirmBtn = document.getElementById('modal-confirm-btn') as HTMLButtonElement;
+const modalCancelBtn = document.getElementById('modal-cancel-btn') as HTMLButtonElement;
 
 
 // --- Game State ---
@@ -298,7 +301,19 @@ function init() {
     nextBtn.addEventListener('click', handleNextClick);
     prevBtn.addEventListener('click', handlePrevClick);
     answerBtn.addEventListener('click', handleAnswerClick);
-    homeBtn.addEventListener('click', () => showScreen('main'));
+    
+    homeBtn.addEventListener('click', () => {
+        customModal.classList.remove('hidden');
+    });
+
+    modalConfirmBtn.addEventListener('click', () => {
+        customModal.classList.add('hidden');
+        showScreen('main');
+    });
+
+    modalCancelBtn.addEventListener('click', () => {
+        customModal.classList.add('hidden');
+    });
     
     // Initial setup
     loadWords();
